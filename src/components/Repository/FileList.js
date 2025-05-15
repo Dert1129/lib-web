@@ -20,7 +20,10 @@ function FileList() {
 
                                 </div>
                             </div>
+                            <Container id="spatial-filter" className="mt-3 rounded border shadow-sm spatial-filter-panel container-max">
+                            </Container>
                         </div>
+    
                     </Col>
                     <Col xl={9}>
                         <Row>
@@ -41,11 +44,9 @@ function FileList() {
                             </Col>
                         </Row>
                         <DndProvider backend={HTML5Backend}>
-                            <div className='container-max data-table-wrapper'>
-                                <div className="data-table">
-                                    {/* This is where you would put the cards of books  */}
-                                </div>
-                            </div>
+                            <Container id='spatial-filter' className="mt-3 rounded border shadow-sm">
+                                {/* This is where you put your cards for the library  */}
+                            </Container>
                         </DndProvider>
                     </Col>
                 </Row>
