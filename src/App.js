@@ -11,7 +11,7 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import ErrorBoundaryContainer from './components/Error/ErrorBoundaryContainer';
 import Oops from './components/Error/Oops';
 import NotFoundPage from './components/Error/NotFoundPage';
-import FileListContainer from "./components/Repository/FileListContainer";
+import FileList from './components/Repository/FileList';
 import packagejson from '../package.json';
 import ReportCardContainer from './components/ReportCard/ReportCardContainer';
 
@@ -60,7 +60,7 @@ class App extends Component {
             <ErrorBoundaryContainer>
               <NavBar app='atlas' />
               <Switch>
-                <Route exact path="/" component={FileListContainer} store={store} />
+                <Route exact path="/" component={FileList} store={store} />
                 <Route exact path="/report" component={ReportCardContainer} store={store}/>
                 <Route exact path="/oops" component={Oops} />
                 <Route path='*' component={NotFoundPage} />
