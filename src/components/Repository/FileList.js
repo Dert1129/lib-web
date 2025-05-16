@@ -3,9 +3,18 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Col, Container, Row, } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Component } from 'react';
 
-function FileList() {
-    return (
+class FileList extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            books:[]
+        }
+    }
+
+    render(){
+        return (
         <div className='height-wrapper'>
             <Container id='outer-wrapper' className="multi-container-container container-xxl mh-100">
                 <Row>
@@ -53,6 +62,7 @@ function FileList() {
             </Container>
         </div>
     );
+    }
 }
 
 export default FileList;

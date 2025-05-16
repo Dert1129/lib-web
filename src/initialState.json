@@ -1,12 +1,3 @@
 {
-  "selectedImageDataset": {},
-  "tableSettings": {
-    "pagingSize": 20,
-    "currentPage": 1
-  },
-  "summaryDatasets": {},
-  "totalFileCount": 0,
-  "clinicalDatasets": {},
-  "experimentalDataCounts": {},
-  "dataTypeFileCounts": {}
+  "books": []
 }

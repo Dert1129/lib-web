@@ -18,3 +18,13 @@ export const tableSettings = ( state = {}, action ) => {
             return state;
     }
 };
+
+export const books = ( state = {}, action ) => {
+    switch(action.type) {
+        case actionNames.SET_SELECTED_BOOK:
+            let newState = {...state, ...action.payload};
+            return newState
+        default:
+            return state;
+    }
+}

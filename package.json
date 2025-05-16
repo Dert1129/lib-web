@@ -2,8 +2,8 @@
   "name": "hydra-web",
   "version": "1.8.0",
   "private": true,
-  "homepage": "/repository",
-  "baseURL": "/repository",
+  "homepage": "/library",
+  "baseURL": "/library",
   "dependencies": {
     "@apollo/client": "3.3.7",
     "@devexpress/dx-react-core": "3.0.0",
