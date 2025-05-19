@@ -2,15 +2,25 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Col, Container, Row, } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft, faBookmark, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import BookCard from './BookCard';
+
 import { Component } from 'react';
+import { fetchBooks } from '../../helpers/Api';
 
 class FileList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            books:[]
+            books: [],
+            selectedBook: null,
         }
+    }
+    async componentDidMount(){
+
+        this.setState({books: await fetchBooks()});
+
+        console.log(this.state.books);
     }
 
     render(){
@@ -55,6 +65,7 @@ class FileList extends Component {
                         <DndProvider backend={HTML5Backend}>
                             <Container id='spatial-filter' className="mt-3 rounded border shadow-sm">
                                 {/* This is where you put your cards for the library  */}
+                                <BookCard books={this.state.books} />
                             </Container>
                         </DndProvider>
                     </Col>
