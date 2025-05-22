@@ -17,10 +17,7 @@ class FileList extends Component {
         }
     }
     async componentDidMount(){
-
         this.setState({books: await fetchBooks()});
-
-        console.log(this.state.books);
     }
 
     render(){
@@ -39,7 +36,7 @@ class FileList extends Component {
 
                                 </div>
                             </div>
-                            <Container id="spatial-filter" className="mt-3 rounded border shadow-sm spatial-filter-panel container-max">
+                            <Container id="spatial-filter" className="mt-3 rounded border shadow-sm spatial-filter-panel container-max overflow-scroll">
                             </Container>
                         </div>
     
@@ -63,7 +60,7 @@ class FileList extends Component {
                             </Col>
                         </Row>
                         <DndProvider backend={HTML5Backend}>
-                            <Container id='spatial-filter' className="mt-3 rounded border shadow-sm">
+                            <Container id='card-wrapper' className="mt-3 rounded border shadow-sm">
                                 {/* This is where you put your cards for the library  */}
                                 <BookCard books={this.state.books} />
                             </Container>

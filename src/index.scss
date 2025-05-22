@@ -627,7 +627,17 @@ td:hover {
 }
 
 #spatial-filter{
-    padding:1rem;
+    padding:1rem !important;
+    max-height: 70vh !important;
+}
+
+#card-wrapper {
+  padding: 1rem !important;
+  max-height: 70vh !important;
+}
+
+.book-card-wrapper{
+    max-height: 30vh !important;
 }
 
 .col-xl-3{
