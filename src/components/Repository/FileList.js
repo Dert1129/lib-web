@@ -2,7 +2,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Col, Container, Row, } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft, faBookmark, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import BookCard from './BookCard';
 
 import { Component } from 'react';
@@ -48,15 +48,15 @@ class FileList extends Component {
                             </Col>
                             <Col xl={12} className="my-0 activeFilter-column">
                                 <Row className="filter-pill-row inactive-filters">
-                                    <span><FontAwesomeIcon icon={faLongArrowLeft}/> Start searching by selecting a facet</span>
+                                    <span><FontAwesomeIcon icon={faLongArrowLeft}/> Start searching by selecting a filter</span>
                                 </Row>
-                                <Row className="filter-pill-row">
+                                {/* <Row className="filter-pill-row">
                                     <div className="border rounded activeFilter action-button">
                                         <span>
                                             <FontAwesomeIcon alt="Clear All Filters" className="fa-light fa-trash-can" icon={faTrashCan} /> Clear Filters 
                                         </span>
                                     </div>
-                                </Row>
+                                </Row> */}
                             </Col>
                         </Row>
                         <DndProvider backend={HTML5Backend}>

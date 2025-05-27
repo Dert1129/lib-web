@@ -2,42 +2,39 @@ import { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import BookNotFound from "../../assets/img/book-not-found.png"
 
 class BookCard extends Component {
-    determineImageLink(imageLink) {
-        if (imageLink) {
+    determineCoverImage(imageLink) {
+        console.log("Image Link: ", imageLink);
+        if (imageLink.length >0) {
             return imageLink;
-        } else {
-            return "src/assets/img/book-not-found.png";
+        } else{
+            return BookNotFound;
         }
     }
 
     render() {
         return (
-            <Row>
+            <Row id="cards">
                 {this.props.books.map(book => (
                     <Col key={book.id} md={12} className="mb-4">
                         <div className="card py-4 px-4 shadow" id="book-card">
                             <Row id="book-card-content" className="no-gutters card-main-content">
-                                {/* Checkbox */}
-                                <Col className="d-flex align-items-start pr-3" xs="auto">
-                                    <input type="checkbox" className="form-check-input mt-2" />
-                                </Col>
-                                {/* Cover Image */}
                                 <Col className="cover-wrapper pr-3" xs="auto">
                                     <img
-                                        src={this.determineImageLink(book.imageLink)}
+                                        src={this.determineCoverImage(book.imageLink)}
                                         alt={book.title}
                                         className="cover-image"
                                         style={{ width: 80, height: 120, objectFit: 'cover', borderRadius: 4 }}
                                     />
                                 </Col>
-                                {/* Book Info */}
+                                {/* Book summary */}
                                 <Col className="content-wrapper">
                                     <Row className="section">
                                         <Col className="data-container">
                                             <h5 className="card-title mb-2">
-                                                <a href="#" className="text-decoration-none">{book.title}</a>
+                                                <a href="#">{book.title}</a>
                                             </h5>
                                             <Col className="card__publication-info">
                                                 <span>Publisher: {book.publisher || 'N/A'} {book.startDate ? `| ${book.startDate}` : ''} | English</span>

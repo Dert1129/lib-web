@@ -634,6 +634,7 @@ td:hover {
 #card-wrapper {
   padding: 1rem !important;
   max-height: 70vh !important;
+  overflow-y: scroll;
 }
 
 .book-card-wrapper{

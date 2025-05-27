@@ -60,9 +60,9 @@ class App extends Component {
             <ErrorBoundaryContainer>
               <Switch>
                 <Route exact path="/" component={FileListContainer} store={store} />
-                <Route exact path="/report" component={ReportCardContainer} store={store}/>
+                {/* <Route exact path="/report" component={ReportCardContainer} store={store}/>
                 <Route exact path="/oops" component={Oops} />
-                <Route path='*' component={NotFoundPage} />
+                <Route path='*' component={NotFoundPage} /> */}
               </Switch>
             </ErrorBoundaryContainer>
           </BrowserRouter>
