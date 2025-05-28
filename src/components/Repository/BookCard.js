@@ -6,7 +6,6 @@ import BookNotFound from "../../assets/img/book-not-found.png"
 
 class BookCard extends Component {
     determineCoverImage(imageLink) {
-        console.log("Image Link: ", imageLink);
         if (imageLink.length >0) {
             return imageLink;
         } else{
@@ -14,7 +13,12 @@ class BookCard extends Component {
         }
     }
 
+    handleTitleClick(book) {
+        this.props.setSelectedBook(book);
+    }
+
     render() {
+        console.log(this)
         return (
             <Row id="cards">
                 {this.props.books.map(book => (
@@ -34,7 +38,7 @@ class BookCard extends Component {
                                     <Row className="section">
                                         <Col className="data-container">
                                             <h5 className="card-title mb-2">
-                                                <a href="#">{book.title}</a>
+                                                <div onClick={() => this.handleTitleClick(book)}>{book.title}</div>
                                             </h5>
                                             <Col className="card__publication-info">
                                                 <span>Publisher: {book.publisher || 'N/A'} {book.startDate ? `| ${book.startDate}` : ''} | English</span>

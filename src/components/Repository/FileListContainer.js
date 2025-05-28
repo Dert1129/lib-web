@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch, props) =>
         },
         setSelectedBook(selectedBook) {
             dispatch(setSelectedBook(selectedBook));
-            dispatch((dispatch) => props.history.push("/library"));
+            dispatch((dispatch) => props.history.push("/bookinfo"));
         }
     });
 
