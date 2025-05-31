@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap-5-css-only/css/bootstrap.min.css';
-import './index.css';
+import './index.scss';
 import 'react-tooltip/dist/react-tooltip.css'
 import App from './App';
 
