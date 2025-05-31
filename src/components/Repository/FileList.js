@@ -27,9 +27,16 @@ class FileList extends Component {
         this.setState({books: await fetchBooks()});
     }
 
- handleCheckboxChange = (filterType, value) => {
+    clearFilters = () => {
+        this.setState({selectedFilters: []}, () => {
+            console.log("Filters cleared:", this.state.selectedFilters);
+        })
+    }
+
+    handleCheckboxChange = (filterType, value) => {
     const { selectedFilters } = this.state;
     const existingFilter = selectedFilters.find((filter) => filter[filterType]);
+
     if (existingFilter) {
         const updatedFilters = selectedFilters.map((filter) => {
             if (filter[filterType]) {
@@ -42,20 +49,16 @@ class FileList extends Component {
             }
             return filter;
         });
-        this.setState(
-            {
-                selectedFilters: updatedFilters.filter((filter) => filter[filterType]?.length > 0),},() => {
-                console.log("Updated selectedFilters:", this.state.selectedFilters); // Logs the updated state
-            }
-        );
+
+        this.setState({
+            selectedFilters: updatedFilters.filter((filter) => filter[filterType]?.length > 0),
+        });
     } else {
-        this.setState(
-            {selectedFilters: [...selectedFilters, { [filterType]: [value] }],},() => {
-                console.log("Updated selectedFilters:", this.state.selectedFilters);
-            }
-        );
+        this.setState({
+            selectedFilters: [...selectedFilters, { [filterType]: [value] }],
+        });
     }
-    };
+};
 
     render(){
         const authors = [...new Set(this.state.books.map((book) => book.authorName))];
@@ -88,16 +91,23 @@ class FileList extends Component {
                                                 <AccordionHeader targetId="authors">Author</AccordionHeader>
                                                 <AccordionBody accordionId="authors">
                                                     <FormGroup className="filterFormGroup">
-                                                        {authors.map((author) => (
-                                                            <div key={author} className="mb-2">
-                                                                <Input
-                                                                    type="checkbox"
-                                                                    id={`author-${author}`}
-                                                                    onChange={() => this.handleCheckboxChange("authorName", author)}
-                                                                />
-                                                                <Label for={`author-${author}`}>{author}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {authors.map((author) => {
+                                                            const isChecked = this.state.selectedFilters.some(
+                                                                (filter) => filter.authorName && filter.authorName.includes(author)
+                                                            );
+
+                                                            return (
+                                                                <div key={author} className="mb-2">
+                                                                    <Input
+                                                                        type="checkbox"
+                                                                        id={`author-${author}`}
+                                                                        checked={isChecked} // Controlled by selectedFilters
+                                                                        onChange={() => this.handleCheckboxChange("authorName", author)}
+                                                                    />
+                                                                    <Label for={`author-${author}`}>{author}</Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
@@ -107,16 +117,23 @@ class FileList extends Component {
                                                 <AccordionHeader targetId="genres">Genre</AccordionHeader>
                                                 <AccordionBody accordionId="genres">
                                                     <FormGroup className="filterFormGroup">
-                                                        {genres.map((genre) => (
-                                                            <div key={genre} className="mb-2">
-                                                                <Input
-                                                                    type="checkbox"
-                                                                    id={`genre-${genre}`}
-                                                                    onChange={() => this.handleCheckboxChange("genre", genre)}
-                                                                />
-                                                                <Label for={`genre-${genre}`}>{genre}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {genres.map((genre) => {
+                                                            const isChecked = this.state.selectedFilters.some(
+                                                                (filter) => filter.genre && filter.genre.includes(genre)
+                                                            );
+
+                                                            return (
+                                                                <div key={genre} className="mb-2">
+                                                                    <Input
+                                                                        type="checkbox"
+                                                                        id={`genre-${genre}`}
+                                                                        checked={isChecked} // Controlled by selectedFilters
+                                                                        onChange={() => this.handleCheckboxChange("genre", genre)}
+                                                                    />
+                                                                    <Label for={`genre-${genre}`}>{genre}</Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
@@ -126,16 +143,23 @@ class FileList extends Component {
                                                 <AccordionHeader targetId="categories">Category</AccordionHeader>
                                                 <AccordionBody accordionId="categories">
                                                     <FormGroup className="filterFormGroup">
-                                                        {categories.map((category) => (
-                                                            <div key={category} className="mb-2">
-                                                                <Input
-                                                                    type="checkbox"
-                                                                    id={`category-${category}`}
-                                                                    onChange={() => this.handleCheckboxChange("category", category)}
-                                                                />
-                                                                <Label for={`category-${category}`}>{category}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {categories.map((category) => {
+                                                            const isChecked = this.state.selectedFilters.some(
+                                                                (filter) => filter.category && filter.category.includes(category)
+                                                            );
+
+                                                            return (
+                                                                <div key={category} className="mb-2">
+                                                                    <Input
+                                                                        type="checkbox"
+                                                                        id={`category-${category}`}
+                                                                        checked={isChecked} // Controlled by selectedFilters
+                                                                        onChange={() => this.handleCheckboxChange("category", category)}
+                                                                    />
+                                                                    <Label for={`category-${category}`}>{category}</Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
@@ -145,16 +169,23 @@ class FileList extends Component {
                                                 <AccordionHeader targetId="ratings">Rating</AccordionHeader>
                                                 <AccordionBody accordionId="ratings">
                                                     <FormGroup className="filterFormGroup">
-                                                        {ratings.map((rating) => (
-                                                            <div key={rating} className="mb-2">
-                                                                <Input
-                                                                    type="checkbox"
-                                                                    id={`rating-${rating}`}
-                                                                    onChange={() => this.handleCheckboxChange("rating", rating)}
-                                                                />
-                                                                <Label for={`rating-${rating}`}>{rating}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {ratings.map((rating) => {
+                                                            const isChecked = this.state.selectedFilters.some(
+                                                                (filter) => filter.rating && filter.rating.includes(rating)
+                                                            );
+
+                                                            return (
+                                                                <div key={rating} className="mb-2">
+                                                                    <Input
+                                                                        type="checkbox"
+                                                                        id={`rating-${rating}`}
+                                                                        checked={isChecked} // Controlled by selectedFilters
+                                                                        onChange={() => this.handleCheckboxChange("rating", rating)}
+                                                                    />
+                                                                    <Label for={`rating-${rating}`}>{rating}</Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
@@ -164,16 +195,23 @@ class FileList extends Component {
                                                 <AccordionHeader targetId="copies">Copies</AccordionHeader>
                                                 <AccordionBody accordionId="copies">
                                                     <FormGroup className="filterFormGroup">
-                                                        {copies.map((copy) => (
-                                                            <div key={copy} className="mb-2">
-                                                                <Input
-                                                                    type="checkbox"
-                                                                    id={`copies-${copy}`}
-                                                                    onChange={() => this.handleCheckboxChange("copies", copy)}
-                                                                />
-                                                                <Label for={`copies-${copy}`}>{copy}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {copies.map((copy) => {
+                                                            const isChecked = this.state.selectedFilters.some(
+                                                                (filter) => filter.copies && filter.copies.includes(copy)
+                                                            );
+
+                                                            return (
+                                                                <div key={copy} className="mb-2">
+                                                                    <Input
+                                                                        type="checkbox"
+                                                                        id={`copies-${copy}`}
+                                                                        checked={isChecked} // Controlled by selectedFilters
+                                                                        onChange={() => this.handleCheckboxChange("copies", copy)}
+                                                                    />
+                                                                    <Label for={`copies-${copy}`}>{copy}</Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
@@ -183,16 +221,23 @@ class FileList extends Component {
                                                 <AccordionHeader targetId="readStatuses">Read Status</AccordionHeader>
                                                 <AccordionBody accordionId="readStatuses">
                                                     <FormGroup className="filterFormGroup">
-                                                        {readStatuses.map((status) => (
-                                                            <div key={status} className="mb-2">
-                                                                <Input
-                                                                    type="checkbox"
-                                                                    id={`read-${status}`}
-                                                                    onChange={() => this.handleCheckboxChange("read", status)}
-                                                                />
-                                                                <Label for={`read-${status}`}>{status}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {readStatuses.map((status) => {
+                                                            const isChecked = this.state.selectedFilters.some(
+                                                                (filter) => filter.read && filter.read.includes(status)
+                                                            );
+
+                                                            return (
+                                                                <div key={status} className="mb-2">
+                                                                    <Input
+                                                                        type="checkbox"
+                                                                        id={`read-${status}`}
+                                                                        checked={isChecked} // Controlled by selectedFilters
+                                                                        onChange={() => this.handleCheckboxChange("read", status)}
+                                                                    />
+                                                                    <Label for={`read-${status}`}>{status}</Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
@@ -212,13 +257,15 @@ class FileList extends Component {
                                 <Row className="filter-pill-row inactive-filters">
                                     <span><FontAwesomeIcon icon={faLongArrowLeft}/> Start searching by selecting a filter</span>
                                 </Row>
-                                {/* <Row className="filter-pill-row">
-                                    <div className="border rounded activeFilter action-button">
-                                        <span>
-                                            <FontAwesomeIcon alt="Clear All Filters" className="fa-light fa-trash-can" icon={faTrashCan} /> Clear Filters 
-                                        </span>
-                                    </div>
-                                </Row> */}
+                                {this.state.selectedFilters.length > 0 && (
+                                        <Row className="filter-pill-row">
+                                            <div className="border rounded activeFilter action-button" onClick={this.clearFilters} style={{ cursor: 'pointer' }}>
+                                                <span>
+                                                    <FontAwesomeIcon alt="Clear All Filters" className="fa-light fa-trash-can" icon={faTrashCan} /> Clear Filters
+                                                </span>
+                                            </div>
+                                        </Row>
+                                    )}
                             </Col>
                         </Row>
                         <DndProvider backend={HTML5Backend}>
