@@ -18,10 +18,26 @@ class BookCard extends Component {
     }
 
     render() {
-        console.log(this)
+        const { books, filters } = this.props;
+        console.log(filters);
+
+        const filteredBooks = books.filter((book) => {
+            return filters.every((filter) => {
+                const filterType = Object.keys(filter)[0];
+                const filterValues = filter[filterType].map((value) => value.toLowerCase());
+                const bookValue = filterType === "genre" ? book.genreList : book[filterType];
+            
+                if (Array.isArray(bookValue)) {
+                    return bookValue.some((value) => filterValues.includes(value.toLowerCase()));
+                } else {
+                    return filterValues.includes(bookValue?.toLowerCase());
+                }
+            });
+        });
+
         return (
             <Row id="cards">
-                {this.props.books.map(book => (
+                {filteredBooks.map((book) => (
                     <Col key={book.id} md={12} className="mb-4">
                         <div className="card py-4 px-4 shadow" id="book-card">
                             <Row id="book-card-content" className="no-gutters card-main-content">
@@ -41,18 +57,18 @@ class BookCard extends Component {
                                                 <div onClick={() => this.handleTitleClick(book)}>{book.title}</div>
                                             </h5>
                                             <Col className="card__publication-info">
-                                                <span>Publisher: {book.publisher || 'N/A'} {book.startDate ? `| ${book.startDate}` : ''} | English</span>
+                                                <span>
+                                                    Publisher: {book.publisher || 'N/A'}{' '}
+                                                    {book.startDate ? `| ${book.startDate}` : ''} | English
+                                                </span>
                                             </Col>
                                             <Col>
-                                                <strong>Author:</strong> {book.authorName}<br />
-                                                <strong>ISBN:</strong> {book.isbn}<br />
-                                                <strong>Genre:</strong> {book.genreList && book.genreList.join(', ')}<br />
-                                                {/* <strong>Category:</strong> {book.category}<br />
-                                                <strong>Copies:</strong> {book.copies}<br />
-                                                <strong>Read:</strong> {book.read ? 'Yes' : 'No'}<br />
-                                                <strong>Description:</strong> {book.description}<br />
-                                                <strong>Review:</strong> {book.review || 'N/A'}<br />
-                                                <strong>Rating:</strong> {book.rating || 'N/A'} */}
+                                                <strong>Author:</strong> {book.authorName}
+                                                <br />
+                                                <strong>ISBN:</strong> {book.isbn}
+                                                <br />
+                                                <strong>Genre:</strong> {book.genreList && book.genreList.join(', ')}
+                                                <br />
                                             </Col>
                                         </Col>
                                         {/* Action Buttons */}
@@ -65,13 +81,6 @@ class BookCard extends Component {
                                             </button>
                                         </Col>
                                     </Row>
-                                    {/* Edition/location/copy info */}
-                                    {/* <Row className="mt-3">
-                                        <Col>
-                                            <span className="font-weight-bold">{book.copies}&nbsp;</span>
-                                            <span>copy</span>
-                                        </Col>
-                                    </Row> */}
                                 </Col>
                             </Row>
                         </div>

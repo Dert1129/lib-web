@@ -61,6 +61,7 @@ class FileList extends Component {
 };
 
     render(){
+        console.log(this.state.books);
         const authors = [...new Set(this.state.books.map((book) => book.authorName))];
         const genres = [...new Set(this.state.books.flatMap((book) => book.genreList))];
         const categories = [...new Set(this.state.books.map((book) => book.category))];
@@ -189,33 +190,6 @@ class FileList extends Component {
                                                     </FormGroup>
                                                 </AccordionBody>
                                             </AccordionItem>
-
-                                            {/* Copies */}
-                                            <AccordionItem>
-                                                <AccordionHeader targetId="copies">Copies</AccordionHeader>
-                                                <AccordionBody accordionId="copies">
-                                                    <FormGroup className="filterFormGroup">
-                                                        {copies.map((copy) => {
-                                                            const isChecked = this.state.selectedFilters.some(
-                                                                (filter) => filter.copies && filter.copies.includes(copy)
-                                                            );
-
-                                                            return (
-                                                                <div key={copy} className="mb-2">
-                                                                    <Input
-                                                                        type="checkbox"
-                                                                        id={`copies-${copy}`}
-                                                                        checked={isChecked} // Controlled by selectedFilters
-                                                                        onChange={() => this.handleCheckboxChange("copies", copy)}
-                                                                    />
-                                                                    <Label for={`copies-${copy}`}>{copy}</Label>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </FormGroup>
-                                                </AccordionBody>
-                                            </AccordionItem>
-
                                             {/* Read Status */}
                                             <AccordionItem>
                                                 <AccordionHeader targetId="readStatuses">Read Status</AccordionHeader>
@@ -271,7 +245,7 @@ class FileList extends Component {
                         <DndProvider backend={HTML5Backend}>
                             <Container id='card-wrapper' className="mt-3 rounded border shadow-sm">
                                 {/* This is where you put your cards for the library  */}
-                                <BookCard books={this.state.books} setSelectedBook={this.props.setSelectedBook} filteredBooks/>
+                                <BookCard books={this.state.books} setSelectedBook={this.props.setSelectedBook} filters={this.state.selectedFilters}/>
                             </Container>
                         </DndProvider>
                     </Col>
