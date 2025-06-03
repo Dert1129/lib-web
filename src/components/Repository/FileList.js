@@ -34,31 +34,38 @@ class FileList extends Component {
     }
 
     handleCheckboxChange = (filterType, value) => {
-    const { selectedFilters } = this.state;
-    const existingFilter = selectedFilters.find((filter) => filter[filterType]);
+        const { selectedFilters } = this.state;
+        const existingFilter = selectedFilters.find((filter) => filter[filterType]);
 
-    if (existingFilter) {
-        const updatedFilters = selectedFilters.map((filter) => {
-            if (filter[filterType]) {
-                const values = filter[filterType];
-                if (values.includes(value)) {
-                    return { [filterType]: values.filter((item) => item !== value) };
-                } else {
-                    return { [filterType]: [...values, value] };
+        if (existingFilter) {
+            const updatedFilters = selectedFilters.map((filter) => {
+                if (filter[filterType]) {
+                    const values = filter[filterType];
+                    if (values.includes(value)) {
+                        console.log(`Removing filter: ${filterType} - ${value}`);
+                        return { [filterType]: values.filter((item) => item !== value) };
+                    } else {
+                        console.log(`Adding filter: ${filterType} - ${value}`);
+                        return { [filterType]: [...values, value] };
+                    }
                 }
-            }
-            return filter;
-        });
+                return filter;
+            });
 
-        this.setState({
-            selectedFilters: updatedFilters.filter((filter) => filter[filterType]?.length > 0),
-        });
-    } else {
-        this.setState({
-            selectedFilters: [...selectedFilters, { [filterType]: [value] }],
-        });
-    }
-};
+            this.setState({
+                selectedFilters: updatedFilters.filter((filter) => filter[filterType]?.length > 0),
+            }, () => {
+                console.log("Updated Filters:", this.state.selectedFilters);
+            });
+        } else {
+            console.log(`Adding new filter type: ${filterType} - ${value}`);
+            this.setState({
+                selectedFilters: [...selectedFilters, { [filterType]: [value] }],
+            }, () => {
+                console.log("Updated Filters:", this.state.selectedFilters);
+            });
+        }
+    };
 
     render(){
         console.log(this.state.books);
@@ -66,7 +73,6 @@ class FileList extends Component {
         const genres = [...new Set(this.state.books.flatMap((book) => book.genreList))];
         const categories = [...new Set(this.state.books.map((book) => book.category))];
         const ratings = [...new Set(this.state.books.map((book) => book.rating))];
-        const copies = [...new Set(this.state.books.map((book) => book.copies))];
         const readStatuses = [...new Set(this.state.books.map((book) => (book.read ? "Read" : "Unread")))];
         return (
         <div className='height-wrapper'>
