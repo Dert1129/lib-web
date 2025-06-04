@@ -42,33 +42,29 @@ class FileList extends Component {
                 if (filter[filterType]) {
                     const values = filter[filterType];
                     if (values.includes(value)) {
-                        console.log(`Removing filter: ${filterType} - ${value}`);
                         return { [filterType]: values.filter((item) => item !== value) };
                     } else {
-                        console.log(`Adding filter: ${filterType} - ${value}`);
                         return { [filterType]: [...values, value] };
                     }
                 }
                 return filter;
             });
+            const cleanedFilters = updatedFilters.filter((filter) => {
+                const key = Object.keys(filter)[0];
+                return filter[key]?.length > 0;
+            });
 
             this.setState({
-                selectedFilters: updatedFilters.filter((filter) => filter[filterType]?.length > 0),
-            }, () => {
-                console.log("Updated Filters:", this.state.selectedFilters);
+                selectedFilters: cleanedFilters
             });
         } else {
-            console.log(`Adding new filter type: ${filterType} - ${value}`);
             this.setState({
                 selectedFilters: [...selectedFilters, { [filterType]: [value] }],
-            }, () => {
-                console.log("Updated Filters:", this.state.selectedFilters);
             });
         }
     };
 
     render(){
-        console.log(this.state.books);
         const authors = [...new Set(this.state.books.map((book) => book.authorName))];
         const genres = [...new Set(this.state.books.flatMap((book) => book.genreList))];
         const categories = [...new Set(this.state.books.map((book) => book.category))];
@@ -251,7 +247,11 @@ class FileList extends Component {
                         <DndProvider backend={HTML5Backend}>
                             <Container id='card-wrapper' className="mt-3 rounded border shadow-sm">
                                 {/* This is where you put your cards for the library  */}
-                                <BookCard books={this.state.books} setSelectedBook={this.props.setSelectedBook} filters={this.state.selectedFilters}/>
+                                <BookCard 
+                                    books={this.state.books} 
+                                    setSelectedBook={this.props.setSelectedBook} 
+                                    filters={this.state.selectedFilters}
+                                />
                             </Container>
                         </DndProvider>
                     </Col>
