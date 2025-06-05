@@ -1,8 +1,8 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Col, Container, Row, UncontrolledAccordion, AccordionItem, AccordionHeader, AccordionBody, FormGroup, Input, Label} from "reactstrap";
+import { Col, Container, Row, UncontrolledAccordion, AccordionItem, AccordionHeader, AccordionBody, FormGroup, Input, Label,UncontrolledTooltip} from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight, faAnglesLeft,  faTrashCan, faLongArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import BookCard from './BookCard';
 
 import { Component } from 'react';
@@ -20,7 +20,8 @@ class FileList extends Component {
             ratingFilters: [],
             copiesFilters: [],
             readFilters: [],
-            selectedFilters: [], // Tracks selected filters
+            selectedFilters: [],
+            filterTabActive: true
         }
     }
     async componentDidMount(){
@@ -32,6 +33,10 @@ class FileList extends Component {
             console.log("Filters cleared:", this.state.selectedFilters);
         })
     }
+
+        toggleFilterTab = () => {
+            this.setState({filterTabActive: !this.state.filterTabActive})
+    };
 
     handleCheckboxChange = (filterType, value) => {
         const { selectedFilters } = this.state;
@@ -64,6 +69,46 @@ class FileList extends Component {
         }
     };
 
+    getFilterPills = (filters) => {
+        const filterDisplayNames = {
+            authorName: "Author",
+            genre: "Genre",
+            category: "Category",
+            rating: "Rating",
+            readStatuses: "Read Status",
+        };
+
+        return filters.map((filter) => {
+            const filterType = Object.keys(filter)[0];
+            const filterValues = filter[filterType];
+        
+            return filterValues.map((value) => {
+                const sanitizedId = `${filterType}-${value}`.replace(/[^a-zA-Z0-9-_]/g, '_');
+                return (
+                    <div
+                        key={sanitizedId}
+                        className="border rounded activeFilter"
+                        id={sanitizedId}
+                    >
+                        <span>{value}
+                            <UncontrolledTooltip placement="bottom" target={sanitizedId}>
+                                {`${filterDisplayNames[filterType] || filterType}: ${value}`}
+                            </UncontrolledTooltip>
+                            <FontAwesomeIcon
+                                alt="Close Filter"
+                                onClick={() => {
+                                    this.props.removeFilter(filterType, value);
+                                }}
+                                className="close-button fas fa-xmark ms-2"
+                                icon={faXmark}
+                            />
+                        </span>
+                    </div>
+                );
+            });
+        });
+    };
+
     render(){
         const authors = [...new Set(this.state.books.map((book) => book.authorName))];
         const genres = [...new Set(this.state.books.flatMap((book) => book.genreList))];
@@ -74,17 +119,16 @@ class FileList extends Component {
         <div className='height-wrapper'>
             <Container id='outer-wrapper' className="multi-container-container container-xxl mh-100">
                 <Row>
-                    <Col xl={3} className="filter-panel-wrapper">
-                        <div className="filter-panel-wrapper">
-                            {/* This is where you put the filter checkboxes */}
-                            <div className="filter-panel-tab-wrapper">
-                                <div className="filter-tab filter-tab-control-icon clickable"
-                                    alt="Close Filter Tab"
-                                    style={{cursor: 'pointer'}}>
-                                    <FontAwesomeIcon className="fas fa-angles-left " icon={faAnglesLeft} />
-
+                   <Col xl={3} className={`filter-panel-wrapper ${this.state.filterTabActive ? '': 'hidden'}`}>
+                            <div className={`filter-panel-wrapper ${this.state.filterTabActive ? '': 'hidden'}`}>
+                                <div className="filter-panel-tab-wrapper">
+                                    <div className="filter-tab filter-tab-control-icon clickable"
+                                        alt="Close Filter Tab"
+                                        onClick={() => {this.toggleFilterTab()}}>                                
+                                        <FontAwesomeIcon
+                                            className="fas fa-angles-left " icon={faAnglesLeft} />
+                                    </div>
                                 </div>
-                            </div>
                             <Container id="spatial-filter" className="mt-3 rounded border shadow-sm spatial-filter-panel container-max overflow-scroll">
                                 <Row>
                                     <Col>
@@ -224,11 +268,16 @@ class FileList extends Component {
                         </div>
     
                     </Col>
-                    <Col xl={9}>
+                    <Col xl={`${this.state.filterTabActive ? 9 : 12 }`}>
                         <Row>
-                            <Col className="filter-collapse clickable" xl={1} alt="Open Filter Tab" style={{cursor: 'pointer'}}>
-                                <FontAwesomeIcon className="fas fa-angles-right" icon={faAnglesRight} />
-                            </Col>
+                            <Col 
+                                    className={`filter-collapse clickable ${this.state.filterTabActive ? 'hidden': ''}`}
+                                    xl={1}
+                                    alt="Open Filter Tab"
+                                    onClick={() => {this.toggleFilterTab()}}>
+                                <FontAwesomeIcon
+                                        className="fas fa-angles-right" icon={faAnglesRight} />
+                                </Col>
                             <Col xl={12} className="my-0 activeFilter-column">
                                 <Row className="filter-pill-row inactive-filters">
                                     <span><FontAwesomeIcon icon={faLongArrowLeft}/> Start searching by selecting a filter</span>
@@ -240,6 +289,8 @@ class FileList extends Component {
                                                     <FontAwesomeIcon alt="Clear All Filters" className="fa-light fa-trash-can" icon={faTrashCan} /> Clear Filters
                                                 </span>
                                             </div>
+
+                                            {this.getFilterPills(this.state.selectedFilters)}
                                         </Row>
                                     )}
                             </Col>
