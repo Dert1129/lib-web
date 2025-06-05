@@ -11,6 +11,7 @@ import ErrorBoundaryContainer from './components/Error/ErrorBoundaryContainer';
 import FileListContainer from './components/Repository/FileListContainer';
 import packagejson from '../package.json';
 import BookInfoContainer from './components/Repository/BookInfoContainer';
+import LibraryNavBar from "./components/NavBar/NavBar";
 
 const cacheStore = window.sessionStorage.getItem('hyrda-redux-store');
 const initialState = cacheStore ? JSON.parse(cacheStore) : loadedState;
@@ -55,6 +56,7 @@ class App extends Component {
       <Provider store={store}>
           <BrowserRouter history={history} basename={packagejson.baseURL}>
             <ErrorBoundaryContainer>
+            <LibraryNavBar />
               <Switch>
                 <Route exact path="/" component={FileListContainer} store={store} />
                 <Route exact path="/bookinfo" component={BookInfoContainer} store={store} />
