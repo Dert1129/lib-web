@@ -19,7 +19,6 @@ class BookCard extends Component {
 
     render() {
         const { books, filters } = this.props;
-        // console.log(filters);
 
         const filteredBooks = books.filter((book) => {
             return filters.every((filter) => {
