@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavBar, NavFooter } from 'kpmp-common-components';
 import loadedState from './initialState';
 import { createStore, applyMiddleware } from 'redux';
 import appReducer from './reducers';
@@ -9,11 +8,10 @@ import ReactGA from 'react-ga4';
 import { createBrowserHistory } from 'history';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import ErrorBoundaryContainer from './components/Error/ErrorBoundaryContainer';
-import Oops from './components/Error/Oops';
-import NotFoundPage from './components/Error/NotFoundPage';
-import FileListContainer from "./components/Repository/FileListContainer";
+import FileListContainer from './components/Repository/FileListContainer';
 import packagejson from '../package.json';
-import ReportCardContainer from './components/ReportCard/ReportCardContainer';
+import BookInfoContainer from './components/Repository/BookInfoContainer';
+import LibraryNavBar from "./components/NavBar/NavBar";
 
 const cacheStore = window.sessionStorage.getItem('hyrda-redux-store');
 const initialState = cacheStore ? JSON.parse(cacheStore) : loadedState;
@@ -58,14 +56,14 @@ class App extends Component {
       <Provider store={store}>
           <BrowserRouter history={history} basename={packagejson.baseURL}>
             <ErrorBoundaryContainer>
-              <NavBar app='atlas' />
+            <LibraryNavBar />
               <Switch>
                 <Route exact path="/" component={FileListContainer} store={store} />
-                <Route exact path="/report" component={ReportCardContainer} store={store}/>
+                <Route exact path="/bookinfo" component={BookInfoContainer} store={store} />
+                {/* <Route exact path="/report" component={ReportCardContainer} store={store}/>
                 <Route exact path="/oops" component={Oops} />
-                <Route path='*' component={NotFoundPage} />
+                <Route path='*' component={NotFoundPage} /> */}
               </Switch>
-              <NavFooter app='atlas' />
             </ErrorBoundaryContainer>
           </BrowserRouter>
       </Provider>

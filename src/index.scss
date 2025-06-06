@@ -33,9 +33,9 @@ $accordion-icon-width: .8125rem;
     vertical-align: inherit;
 }
 
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: #color;
-}
+// .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+//     background-color: #color;
+// }
 
 .table > thead {
     vertical-align: bottom;
@@ -452,9 +452,9 @@ td:hover {
 .sort-dialog-radio-wrapper svg {
     padding-right: 2px;
 }
-.card-footer {
+// .card-footer {
     
-}
+// }
 .card-footer .d-inline-block {
     display: none !important;
 }
@@ -582,8 +582,8 @@ td:hover {
 }
 
 .accordion-item:first-of-type(.collapsed) .accordion-button {
-    --bs-accordion-color: $accordion-button-color
-    --bs-accorion-border-color: $accordion-button-color
+    --bs-accordion-color: $accordion-button-color;
+    --bs-accorion-border-color: $accordion-button-color;
     box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
 }
 
@@ -627,7 +627,35 @@ td:hover {
 }
 
 #spatial-filter{
-    padding:1rem;
+    padding:1rem !important;
+    max-height: 70vh !important;
+}
+
+.filterFormGroup{
+    padding-left: 1rem !important;
+}
+
+.filterFormGroup .mb-2 {
+    margin-bottom: 0px !important;
+}
+
+.filterFormGroup label {
+    margin-left: 0.1rem;
+}
+
+.filterFormGroup input[type="checkbox"] {
+    margin-right: 0.1rem;
+}
+
+#card-wrapper {
+  padding: 1rem !important;
+  max-height: 70vh !important;
+  overflow-y: scroll;
+  max-width: 100%;
+}
+
+.book-card-wrapper{
+    max-height: 30vh !important;
 }
 
 .col-xl-3{

@@ -2,8 +2,8 @@
   "name": "hydra-web",
   "version": "1.8.0",
   "private": true,
-  "homepage": "/repository",
-  "baseURL": "/repository",
+  "homepage": "/library",
+  "baseURL": "/library",
   "dependencies": {
     "@apollo/client": "3.3.7",
     "@devexpress/dx-react-core": "3.0.0",
@@ -46,7 +46,7 @@
     "sass": "1.56.1"
   },
   "scripts": {
-    "start": "npm-run-all start-js --max_old_space_size=5120",
+    "start": "npm-run-all start-js build-css --max_old_space_size=5120",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

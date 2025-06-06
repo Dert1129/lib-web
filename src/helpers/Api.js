@@ -17,6 +17,15 @@ export const getFileLink = async (queryString) => {
   return Api.getInstance().get(api_host + "/api/v1/derived/download/" + queryString)
 };
 
+export const fetchBooks = async () => {
+    const api_host = process.env.REACT_APP_API_HOST ? process.env.REACT_APP_API_HOST : '';
+    const response = await axios.get("http://localhost:3030/api/books");
+    if (response && response.data) {
+        return response.data;
+    } else {
+        store.dispatch(sendMessageToBackend("Could not retrieve books: " + response.error));
+    }
+}
 
 export const fetchParticipantSummaryDataset = async (redcapId) => {
   const query = gql`
