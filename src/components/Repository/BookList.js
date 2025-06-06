@@ -84,15 +84,16 @@ class FileList extends Component {
         
             return filterValues.map((value) => {
                 const sanitizedId = `${filterType}-${value}`.replace(/[^a-zA-Z0-9-_]/g, '_');
+                const displayValue = filterType === "rating" ? `${value}/10` : value; // Append "/10" for rating
                 return (
                     <div
                         key={sanitizedId}
                         className="border rounded activeFilter"
                         id={sanitizedId}
                     >
-                        <span>{value}
+                        <span>{displayValue}
                             <UncontrolledTooltip placement="bottom" target={sanitizedId}>
-                                {`${filterDisplayNames[filterType] || filterType}: ${value}`}
+                                {`${filterDisplayNames[filterType] || filterType}: ${displayValue}`}
                             </UncontrolledTooltip>
                             <FontAwesomeIcon
                                 alt="Close Filter"
@@ -144,14 +145,14 @@ class FileList extends Component {
                                                             );
 
                                                             return (
-                                                                <div key={author} className="mb-2">
+                                                                <div key={author} className="mb-2 clickable" onClick={() => this.handleCheckboxChange("authorName", author)}>
                                                                     <Input
                                                                         type="checkbox"
                                                                         id={`author-${author}`}
                                                                         checked={isChecked} // Controlled by selectedFilters
-                                                                        onChange={() => this.handleCheckboxChange("authorName", author)}
+                                                                        readOnly
                                                                     />
-                                                                    <Label for={`author-${author}`}>{author}</Label>
+                                                                    <Label className='clickable'>{author}</Label>
                                                                 </div>
                                                             );
                                                         })}
@@ -170,14 +171,14 @@ class FileList extends Component {
                                                             );
 
                                                             return (
-                                                                <div key={genre} className="mb-2">
+                                                                <div key={genre} className="mb-2 clickable" onClick={() => this.handleCheckboxChange("genre", genre)}>
                                                                     <Input
                                                                         type="checkbox"
                                                                         id={`genre-${genre}`}
                                                                         checked={isChecked} // Controlled by selectedFilters
-                                                                        onChange={() => this.handleCheckboxChange("genre", genre)}
+                                                                        readOnly
                                                                     />
-                                                                    <Label for={`genre-${genre}`}>{genre}</Label>
+                                                                    <Label className='clickable'>{genre}</Label>
                                                                 </div>
                                                             );
                                                         })}
@@ -196,14 +197,14 @@ class FileList extends Component {
                                                             );
 
                                                             return (
-                                                                <div key={category} className="mb-2">
+                                                                <div key={category} className="mb-2 clickable" onClick={() => this.handleCheckboxChange("category", category)}>
                                                                     <Input
                                                                         type="checkbox"
                                                                         id={`category-${category}`}
                                                                         checked={isChecked} // Controlled by selectedFilters
-                                                                        onChange={() => this.handleCheckboxChange("category", category)}
+                                                                        readOnly
                                                                     />
-                                                                    <Label for={`category-${category}`}>{category}</Label>
+                                                                    <Label className='clickable'>{category}</Label>
                                                                 </div>
                                                             );
                                                         })}
@@ -217,21 +218,23 @@ class FileList extends Component {
                                                 <AccordionBody accordionId="ratings">
                                                     <FormGroup className="filterFormGroup">
                                                         {ratings.map((rating) => {
-                                                            const isChecked = this.state.selectedFilters.some(
+                                                            if (rating != null) {
+                                                                const isChecked = this.state.selectedFilters.some(
                                                                 (filter) => filter.rating && filter.rating.includes(rating)
                                                             );
-
                                                             return (
-                                                                <div key={rating} className="mb-2">
+                                                                <div key={rating} className="mb-2 clickable" onClick={() => this.handleCheckboxChange("rating", rating)}>
                                                                     <Input
                                                                         type="checkbox"
                                                                         id={`rating-${rating}`}
                                                                         checked={isChecked} // Controlled by selectedFilters
-                                                                        onChange={() => this.handleCheckboxChange("rating", rating)}
+                                                                        readOnly
                                                                     />
-                                                                    <Label for={`rating-${rating}`}>{rating}</Label>
+                                                                    <Label className='clickable'>{rating}</Label>
                                                                 </div>
                                                             );
+                                                            }
+                                                            
                                                         })}
                                                     </FormGroup>
                                                 </AccordionBody>
@@ -247,14 +250,14 @@ class FileList extends Component {
                                                             );
 
                                                             return (
-                                                                <div key={status} className="mb-2">
+                                                                <div key={status} className="mb-2 clickable" onClick={() => this.handleCheckboxChange("read", status)}>
                                                                     <Input
                                                                         type="checkbox"
                                                                         id={`read-${status}`}
                                                                         checked={isChecked} // Controlled by selectedFilters
-                                                                        onChange={() => this.handleCheckboxChange("read", status)}
+                                                                        readOnly
                                                                     />
-                                                                    <Label for={`read-${status}`}>{status}</Label>
+                                                                    <Label className='clickable'>{status}</Label>
                                                                 </div>
                                                             );
                                                         })}

@@ -24,8 +24,14 @@ class BookCard extends Component {
         const filteredBooks = books.filter((book) => {
             return filters.every((filter) => {
                 const filterType = Object.keys(filter)[0];
-                let filterValues = filter[filterType].map((value) => value.toLowerCase());
+                let filterValues = filter[filterType].map((value) => value.toString().toLowerCase());
                 const bookValue = filterType === "genre" ? book.genreList : book[filterType];
+
+                if (filterType === "rating") {
+                    // Handle rating as a float
+                    filterValues = filterValues.map((value) => parseFloat(value)); // Convert filter values to floats
+                    return filterValues.includes(parseFloat(bookValue)); // Compare as floats
+                }
             
                 if (filterType === "read") {
                     filterValues = filterValues.map((value) => (value === "unread" ? "0" : value === "read" ? "1" : value));
