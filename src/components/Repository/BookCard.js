@@ -19,18 +19,25 @@ class BookCard extends Component {
 
     render() {
         const { books, filters } = this.props;
+        console.log(filters)
 
         const filteredBooks = books.filter((book) => {
             return filters.every((filter) => {
                 const filterType = Object.keys(filter)[0];
-                const filterValues = filter[filterType].map((value) => value.toLowerCase());
+                let filterValues = filter[filterType].map((value) => value.toLowerCase());
                 const bookValue = filterType === "genre" ? book.genreList : book[filterType];
             
+                if (filterType === "read") {
+                    filterValues = filterValues.map((value) => (value === "unread" ? "0" : value === "read" ? "1" : value));
+                    return filterValues.includes(String(bookValue));
+                }
                 if (Array.isArray(bookValue)) {
                     return bookValue.some((value) => filterValues.includes(value.toLowerCase()));
                 } else {
                     return filterValues.includes(bookValue?.toLowerCase());
                 }
+
+                
             });
         });
 
