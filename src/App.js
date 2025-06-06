@@ -4,7 +4,6 @@ import { createStore, applyMiddleware } from 'redux';
 import appReducer from './reducers';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createBrowserHistory } from 'history';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import ErrorBoundaryContainer from './components/Error/ErrorBoundaryContainer';
 import FileListContainer from './components/Repository/BookListContainer';
@@ -25,8 +24,6 @@ const saveState = () => {
     JSON.stringify(store.getState())
   );
 };
-
-
 store.subscribe(function () {
   console.log(store.getState());
 });
@@ -44,9 +41,6 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={FileListContainer} store={store} />
                 <Route exact path="/bookinfo" component={BookInfoContainer} store={store} />
-                {/* <Route exact path="/report" component={ReportCardContainer} store={store}/>
-                <Route exact path="/oops" component={Oops} />
-                <Route path='*' component={NotFoundPage} /> */}
               </Switch>
             </ErrorBoundaryContainer>
           </BrowserRouter>
