@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import { withRouter } from 'react-router';
-import FileList from "./FileList";
+import FileList from "./BookList";
 import { setSelectedBook } from "../../actions/Library/LibraryActions";
 import { fetchAndSetBooks } from "../../actions/Library/LibraryActions";
 
