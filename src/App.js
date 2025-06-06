@@ -4,7 +4,6 @@ import { createStore, applyMiddleware } from 'redux';
 import appReducer from './reducers';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import ReactGA from 'react-ga4';
 import { createBrowserHistory } from 'history';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import ErrorBoundaryContainer from './components/Error/ErrorBoundaryContainer';
@@ -27,18 +26,6 @@ const saveState = () => {
   );
 };
 
-// *** Get a new tracking Id and add it here *** //
-const GA_TRACKING_ID = 'G-64W6E37TQB';
-
-ReactGA.initialize(GA_TRACKING_ID,{ testMode: process.env.NODE_ENV === 'test' ? true : false });
-function logPageView(location, action) {
-  ReactGA.set({ page: location.pathname + location.search });
-  ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
-}
-const history = createBrowserHistory();
-history.listen((location, action) => {
-  logPageView(location, action);
-});
 
 store.subscribe(function () {
   console.log(store.getState());
@@ -47,14 +34,11 @@ store.subscribe(function () {
 store.subscribe(saveState);
 
 class App extends Component {
-  componentWillMount() {
-    logPageView(window.location, '');
-  }
 
   render() {
     return (
       <Provider store={store}>
-          <BrowserRouter history={history} basename={packagejson.baseURL}>
+          <BrowserRouter basename={packagejson.baseURL}>
             <ErrorBoundaryContainer>
             <LibraryNavBar />
               <Switch>
