@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import ErrorBoundaryContainer from './components/Error/ErrorBoundaryContainer';
-import FileListContainer from './components/Repository/BookListContainer';
+import FileListContainer from './components/Library/BookListContainer';
 import packagejson from '../package.json';
-import BookInfoContainer from './components/Repository/BookInfoContainer';
+import BookInfoContainer from './components/Library/BookInfoContainer';
 import LibraryNavBar from "./components/NavBar/NavBar";
 
 const cacheStore = window.sessionStorage.getItem('hyrda-redux-store');
