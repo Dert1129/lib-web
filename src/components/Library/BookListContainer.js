@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import { withRouter } from 'react-router';
-import FileList from "./BookList";
+import BookList from "./BookList";
 import { setSelectedBook } from "../../actions/Library/LibraryActions";
 import { fetchAndSetBooks } from "../../actions/Library/LibraryActions";
 
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch, props) =>
         }
     });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FileList))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BookList))

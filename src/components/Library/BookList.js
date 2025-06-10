@@ -8,7 +8,7 @@ import BookCard from './BookCard';
 import { Component } from 'react';
 import { fetchBooks } from '../../helpers/Api';
 
-class FileList extends Component {
+class BookList extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -315,4 +315,4 @@ class FileList extends Component {
     }
 }
 
-export default FileList;
+export default BookList;

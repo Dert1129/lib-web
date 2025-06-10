@@ -10,6 +10,7 @@ import FileListContainer from './components/Library/BookListContainer';
 import packagejson from '../package.json';
 import BookInfoContainer from './components/Library/BookInfoContainer';
 import LibraryNavBar from "./components/NavBar/NavBar";
+import UploadForm from './components/Library/UploadForm';
 
 const cacheStore = window.sessionStorage.getItem('hyrda-redux-store');
 const initialState = cacheStore ? JSON.parse(cacheStore) : loadedState;
@@ -41,6 +42,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={FileListContainer} store={store} />
                 <Route exact path="/bookinfo" component={BookInfoContainer} store={store} />
+                <Route exact path="/upload" component={UploadForm} store={store} />
               </Switch>
             </ErrorBoundaryContainer>
           </BrowserRouter>

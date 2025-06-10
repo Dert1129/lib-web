@@ -23,6 +23,27 @@ $accordion-icon-width: .8125rem;
     min-width: 80px;
 }
 
+
+.formWrapper {
+    ;
+}
+
+.submitWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.form-label {
+    color: #6c757d !important;
+}
+
+.uploadWrapper {
+    max-width: 40%;
+    padding: 1rem;
+    margin: 0 auto;
+
+}
 .vitessce-container {
     .card-body {
         background-color: #FAFBFC !important;
