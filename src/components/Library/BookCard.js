@@ -6,10 +6,11 @@ import BookNotFound from "../../assets/img/book-not-found.png"
 
 class BookCard extends Component {
     determineCoverImage(imageLink) {
-        if (imageLink.length >0) {
-            return imageLink;
-        } else{
+        if (imageLink === null|| imageLink.length === 0 ){
             return BookNotFound;
+        }
+        else{ 
+            return imageLink;
         }
     }
 
@@ -19,7 +20,6 @@ class BookCard extends Component {
 
     render() {
         const { books, filters } = this.props;
-        console.log(filters)
 
         const filteredBooks = books.filter((book) => {
             return filters.every((filter) => {

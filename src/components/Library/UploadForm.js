@@ -80,10 +80,12 @@ class UploadForm extends Component {
             isbn: this.state.isbn,
             publisher: this.state.publisher,
             description: this.state.description,
-            genreList: this.state.genreList,
-            author: this.state.author,
+            genre: this.state.genreList,
+            authorName: this.state.author,
             copies: this.state.copies
         }
+
+        console.log(book);
 
         
 
@@ -207,7 +209,7 @@ class UploadForm extends Component {
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     if(!isNaN(value)){
-                                        this.setState({copies: value, isNumber: true});
+                                        this.setState({copies: parseInt(value), isNumber: true});
                                     }
                                     else {
                                         this.setState({isNumber: false});
@@ -215,7 +217,7 @@ class UploadForm extends Component {
                                 }}
                             />
                             <FormFeedback>
-                                Please enter a number for copies
+                                {this.state.copies <= 0 ? "Copies must be greater than 0" : "Please enter a valid number"}
                             </FormFeedback>
                             <Label for="copies" hidden>
                               Copies

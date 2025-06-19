@@ -21,5 +21,10 @@ export const fetchBooks = async () => {
 }
 
 export const addBook = async (book) => {
-    console.log("Adding book: ", book);
+    const response = await axios.post("http://localhost:3030/api/addManual", book);
+    if (response && response.data) {
+        return response.data;
+    } else {
+        store.dispatch(sendMessageToBackend("Could not add book: " + response.error));
+    }
 }
