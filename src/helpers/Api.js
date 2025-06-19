@@ -19,3 +19,7 @@ export const fetchBooks = async () => {
         store.dispatch(sendMessageToBackend("Could not retrieve books: " + response.error));
     }
 }
+
+export const addBook = async (book) => {
+    console.log("Adding book: ", book);
+}

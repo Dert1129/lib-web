@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Container, Form, FormGroup, Input, Label, FormFeedback } from "reactstrap";
+import { addBook } from "../../helpers/Api";
 
 
 class UploadForm extends Component {
@@ -14,20 +15,92 @@ class UploadForm extends Component {
             genreList: [],
             copies: 0,
             description: '',
-            category: ''
+            category: '',
+            isNumber: true,
+            isTitleValid: true,
+            isAuthorValid: true,
+            isIsbnValid: true,
+            isPublisherValid: true,
+            isGenreValid: true,
+            isCategoryValid: true,
+            isCopiesValid: true,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     separateGenres(genreString) {
-        if (genreString) {
-            this.setState({ genreList: genreString.split(',').map(genre => genre.trim())});
-        }
+    this.setState({
+        genreString, // Update genreString with the input value
+        genreList: genreString.split(',').map((genre) => genre.trim()) // Update genreList
+    });
+}
+
+    validateForm() {
+        const { title, author, isbn, publisher, genreString, category, copies } = this.state;
+
+        // Check if all required fields are filled
+    const isTitleValid = title.trim() !== '';
+    const isAuthorValid = author.trim() !== '';
+    const isIsbnValid = isbn.trim() !== '';
+    const isPublisherValid = publisher.trim() !== '';
+    const isGenreValid = genreString.trim() !== '';
+    const isCategoryValid = category.trim() !== '';
+    const isCopiesValid = copies > 0;
+
+    this.setState({
+        isTitleValid,
+        isAuthorValid,
+        isIsbnValid,
+        isPublisherValid,
+        isGenreValid,
+        isCategoryValid,
+        isCopiesValid
+    });
+
+    return (
+        isTitleValid &&
+        isAuthorValid &&
+        isIsbnValid &&
+        isPublisherValid &&
+        isGenreValid &&
+        isCategoryValid &&
+        isCopiesValid
+    );
     }
 
     handleSubmit() {
-        console.log("Submitting book data:");
-        console.log(this.state);
+        if (!this.validateForm()) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        const book = {
+            title: this.state.title,
+            category: this.state.category,
+            isbn: this.state.isbn,
+            publisher: this.state.publisher,
+            description: this.state.description,
+            genreList: this.state.genreList,
+            author: this.state.author,
+            copies: this.state.copies
+        }
+
+        
+
+        addBook(book);
+        this.setState({
+            title: '',
+            author: '',
+            isbn: '',
+            publisher: '',
+            genreString: '',
+            genreList: [],
+            copies: 0,
+            description: '',
+            category: ''
+        })
+        // console.log("Submitting book data:");
+        // console.log(this.state);
     }
 
     render() {
@@ -41,6 +114,8 @@ class UploadForm extends Component {
                               name="title"
                               placeholder="Title"
                               type="text"
+                              value={this.state.title}
+                              invalid={!this.state.isTitleValid}
                               onChange={(e) => this.setState({title: e.target.value})}
                             />
                             <Label for="tile" hidden>
@@ -54,6 +129,8 @@ class UploadForm extends Component {
                                 name="author"
                                 placeholder="Author"
                                 type="text"
+                                value={this.state.author}
+                                invalid={!this.state.isAuthorValid}
                                 onChange={(e) => this.setState({author: e.target.value})}
                             />
                             <Label for="author" hidden>
@@ -67,6 +144,8 @@ class UploadForm extends Component {
                                 name="isbn"
                                 placeholder="ISBN"
                                 type="text"
+                                value={this.state.isbn}
+                                invalid={!this.state.isIsbnValid}
                                 onChange={(e) => this.setState({isbn: e.target.value})}
                             />
                             <Label for="isbn" hidden>
@@ -80,6 +159,8 @@ class UploadForm extends Component {
                                 name="publisher"
                                 placeholder="Publisher"
                                 type="text"
+                                value={this.state.publisher}
+                                invalid={!this.state.isPublisherValid}
                                 onChange={(e) => this.setState({publisher: e.target.value})}
                             /> 
                             <Label for="publisher" hidden>
@@ -92,6 +173,8 @@ class UploadForm extends Component {
                                 name="genre"
                                 placeholder="Genre(s) Ex. Fiction, Mystery, Sci-Fi"
                                 type="text"
+                                value={this.state.genreString}
+                                invalid={!this.state.isGenreValid}
                                 onChange={(e) => this.separateGenres(e.target.value)}
                             />
                             <Label for="genre" hidden>
@@ -104,6 +187,8 @@ class UploadForm extends Component {
                                 name="category"
                                 placeholder="Category Ex. Fiction/Non-Fiction"
                                 type="text"
+                                value={this.state.category}
+                                invalid={!this.state.isCategoryValid}
                                 onChange={(e) => this.setState({category: e.target.value})}
                             />
                             <Label for="category" hidden>
@@ -117,8 +202,21 @@ class UploadForm extends Component {
                                 name="copies"
                                 placeholder="Copies"
                                 type="number"
-                                onChange={(e) => this.setState({copies: e.target.value})}
+                                value={this.state.copies}
+                                invalid={!this.state.isNumber || !this.state.isCopiesValid}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if(!isNaN(value)){
+                                        this.setState({copies: value, isNumber: true});
+                                    }
+                                    else {
+                                        this.setState({isNumber: false});
+                                    }
+                                }}
                             />
+                            <FormFeedback>
+                                Please enter a number for copies
+                            </FormFeedback>
                             <Label for="copies" hidden>
                               Copies
                             </Label>
@@ -130,6 +228,7 @@ class UploadForm extends Component {
                                 placeholder="Description"
                                 type="textarea"    
                                 className="descriptionInput"
+                                value={this.state.description}
                                 onChange={(e) => this.setState({description: e.target.value})}
                             />
                             <Label for="description" hidden>

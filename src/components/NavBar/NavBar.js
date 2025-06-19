@@ -20,7 +20,7 @@ class LibraryNavBar extends Component {
                     </NavbarBrand>
                     <NavLink href='/library'>
                         Library
-                    </NavLink>'
+                    </NavLink>
                     <NavLink href='/upload'>
                         Upload
                     </NavLink>
