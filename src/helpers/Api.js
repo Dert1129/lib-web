@@ -19,3 +19,12 @@ export const fetchBooks = async () => {
         store.dispatch(sendMessageToBackend("Could not retrieve books: " + response.error));
     }
 }
+
+export const addBook = async (book) => {
+    const response = await axios.post("http://localhost:3030/api/addManual", book);
+    if (response && response.data) {
+        return response.data;
+    } else {
+        store.dispatch(sendMessageToBackend("Could not add book: " + response.error));
+    }
+}
