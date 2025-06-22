@@ -217,7 +217,7 @@ class UploadForm extends Component {
                                 }}
                             />
                             <FormFeedback>
-                                {this.state.copies <= 0 ? "Copies must be greater than 0" : "Please enter a valid number"}
+                                {this.state.copies < 0 ? "Copies must be greater than 0" : "Please enter a valid number"}
                             </FormFeedback>
                             <Label for="copies" hidden>
                               Copies
