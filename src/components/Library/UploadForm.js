@@ -101,8 +101,6 @@ class UploadForm extends Component {
             description: '',
             category: ''
         })
-        // console.log("Submitting book data:");
-        // console.log(this.state);
     }
 
     render() {
